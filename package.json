@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha-casperjs --bail index.js"
+    "start": "node index.js",
+    "test": "mocha-casperjs --bail test.js"
   },
   "author": "",
   "license": "ISC",
