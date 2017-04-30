@@ -3,7 +3,7 @@ describe('Hotel room availability', function () {
   before(function () {
     casper.start(config.url);
     casper.on('remote.message', function (message) {
-      this.echo(message);
+      this.echo('remote message: ' + message);
     });
     console.log('Checking: ' + config.url);
   });
@@ -23,25 +23,21 @@ describe('Hotel room availability', function () {
       this.echo('Failed to load page').exit();
     }, 10000);
   });
-  it('should have rooms available', function () {
-    var images = casper.thenEvaluate(function () {
-      // Succeeded
-      return document.querySelectorAll('img.group-image').length;
-    });
-    console.log('wut wut' + Object.keys(images));
-  });
   it('should send notification to webhook if success', function (done) {
-    // casper.thenEvaluate(function (config) {
-    //   $.ajax(config.webhook).done(function(){
-    //     // Done sending webhook request
-    //     console.log("Done sending")
-    //   });
-    // }, config);
-    // // Wait to let webhook ajax request finish
-    // var webhookWaitTime = config.webhookTimeout || 5000;
-    // casper.wait(webhookWaitTime, function () {
-    //   // DONE
-    // });
-    done();
+    casper.thenEvaluate(function (config) {
+      if(document.querySelectorAll('img.group-image').length){
+        console.log('success');
+        $.ajax(config.webhook).done(function(){
+          // Done sending webhook request
+          console.log("Done sending")
+        });
+      }
+    }, config);
+    // Wait to let webhook ajax request finish
+    var webhookWaitTime = config.webhookTimeout || 5000;
+    casper.wait(webhookWaitTime, function () {
+      // DONE
+      done();
+    });
   });
 });
