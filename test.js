@@ -25,6 +25,13 @@ describe('Hotel room availability', function () {
   });
   it('should send notification to webhook if success', function (done) {
     casper.thenEvaluate(function (config) {
+      // Filter out unwanted lodging
+      var maswik = document.querySelector("[data-title='Maswik Lodge'] > div");
+      if(maswik) {
+        maswik.parentNode.remove();
+      }
+
+      // Check for available rooms
       if(document.querySelectorAll('img.group-image').length){
         console.log('success');
         $.ajax(config.webhook).done(function(){
