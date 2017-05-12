@@ -12,7 +12,8 @@ const runTest = () => {
     console.log(`${data}`);
   });
   roomTest.on('close', (exitCode) => {
-    console.log(`Roomtest exited with code: ${exitCode}`);
+    const now = new Date();
+    console.log(`[${now}] Roomtest exited with code: ${exitCode}`);
   });
 };
 
